@@ -4,13 +4,13 @@ import Header from "./Header";
 
 function AppLayout() {
   return (
-    <div>
+    <>
       <Header />
       <main>
         <Outlet />
       </main>
       <CartOverview />
-    </div>
+    </>
   );
 }
 
