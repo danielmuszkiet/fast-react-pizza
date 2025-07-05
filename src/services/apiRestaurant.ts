@@ -1,4 +1,4 @@
-const API_URL = "https://react-fast-pizza-api.jonas.io/api";
+const API_URL = "https://react-fast-pizza-api.jonas.io/apiss";
 
 import type { Order, Pizza } from "../types";
 

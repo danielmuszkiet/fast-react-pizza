@@ -3,6 +3,8 @@ body {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: #f7f7f7;
   color: #444;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .layout {
@@ -10,6 +12,8 @@ body {
   grid-template-rows: auto 1fr auto;
   gap: 32px;
   height: 100dvh;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
