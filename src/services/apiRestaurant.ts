@@ -1,12 +1,13 @@
 const API_URL = "https://react-fast-pizza-api.jonas.io/api";
 
+import type { Order, Pizza } from "../types";
+
 export async function getMenu() {
   const res = await fetch(`${API_URL}/menu`);
 
-  // fetch won't throw error on 400 errors (e.g. when URL is wrong), so we need to do it manually. This will then go into the catch block, where the message is set
-  if (!res.ok) throw Error("Failed getting menu");
+  if (!res.ok) throw new Error("Failed getting menu");
 
-  const { data } = await res.json();
+  const { data }: { data: Pizza[] } = await res.json();
   return data;
 }
 
@@ -14,11 +15,11 @@ export async function getOrder(id: number) {
   const res = await fetch(`${API_URL}/order/${id}`);
   if (!res.ok) throw Error(`Couldn't find order #${id}`);
 
-  const { data } = await res.json();
+  const { data }: { data: Order } = await res.json();
   return data;
 }
 
-export async function createOrder(newOrder: object) {
+export async function createOrder(newOrder: Order) {
   try {
     const res = await fetch(`${API_URL}/order`, {
       method: "POST",
@@ -36,7 +37,7 @@ export async function createOrder(newOrder: object) {
   }
 }
 
-export async function updateOrder(id: number, updateObj: object) {
+export async function updateOrder(id: number, updateObj: Order) {
   try {
     const res = await fetch(`${API_URL}/order/${id}`, {
       method: "PATCH",
