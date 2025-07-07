@@ -15,7 +15,7 @@ function SearchOrder() {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        className="w-40 bg-white px-2 sm:w-60"
+        className="w-40 px-2 sm:w-60"
         placeholder="Search order #"
         type="text"
         value={query}
