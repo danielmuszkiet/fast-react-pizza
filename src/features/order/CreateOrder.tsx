@@ -1,6 +1,5 @@
-// https://uibakery.io/regex-library/phone-number
-// const isValidPhone = (str: string) =>
-//   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(str);
+import { Form, useActionData, useNavigation } from "react-router";
+import type { ErrorTypes } from "../../types";
 
 const fakeCart = [
   {
@@ -26,17 +25,19 @@ const fakeCart = [
   },
 ];
 
-console.log(fakeCart);
-
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
-  //const cart = fakeCart;
+  const cart = fakeCart;
+  const navigation = useNavigation();
+  const formErrors = useActionData<ErrorTypes>();
+
+  const isSubmitting = navigation.state === "submitting";
 
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form method="POST">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -47,6 +48,7 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {formErrors?.phone && <p>{formErrors.phone}</p>}
         </div>
 
         <div>
@@ -68,9 +70,10 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          <input type="hidden" value={JSON.stringify(cart)} name="cart" />
+          <button disabled={isSubmitting}>{isSubmitting ? "Placing Order" : "Order now"}</button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

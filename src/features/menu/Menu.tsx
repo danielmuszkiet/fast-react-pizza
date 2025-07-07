@@ -4,7 +4,6 @@ import MenuItem from "./MenuItem";
 
 function Menu() {
   const menu = useLoaderData<Pizza[]>();
-  console.log(menu);
 
   return (
     <ul>

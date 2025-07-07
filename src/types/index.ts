@@ -17,6 +17,7 @@ export type Pizza = {
 
 export type Order = {
   id: string;
+  status: string;
   customer: string;
   phone: string;
   address: string;
@@ -26,4 +27,16 @@ export type Order = {
   position: string;
   orderPrice: number;
   priorityPrice: number;
+};
+
+export type NewOrder = {
+  customer: string;
+  phone: string;
+  address: string;
+  priority: boolean;
+  cart: TItem[];
+};
+
+export type ErrorTypes = {
+  phone?: string;
 };
