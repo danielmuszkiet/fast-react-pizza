@@ -1,7 +1,7 @@
-import { isRouteErrorResponse, useNavigate, useRouteError } from "react-router";
+import { isRouteErrorResponse, useRouteError } from "react-router";
+import LinkButton from "./LinkButton";
 
 export function NotFound() {
-  const navigate = useNavigate();
   const error = useRouteError();
 
   if (isRouteErrorResponse(error)) {
@@ -12,7 +12,7 @@ export function NotFound() {
           {error.status} {error.statusText}
         </h2>
         <p>{error.data}</p>
-        <button onClick={() => navigate(-1)}>&larr; Go back</button>
+        <LinkButton to="-1">&larr; Go back</LinkButton>
       </div>
     );
   } else if (error instanceof Error) {
@@ -20,7 +20,8 @@ export function NotFound() {
       <div>
         <h1>Something went wrong 😢</h1>
         <p>{error.message}</p>
-        <button onClick={() => navigate(-1)}>&larr; Go back</button>
+
+        <LinkButton to="-1">&larr; Go back</LinkButton>
       </div>
     );
   } else {

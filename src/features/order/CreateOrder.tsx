@@ -1,5 +1,6 @@
 import { Form, useActionData, useNavigation } from "react-router";
 import type { ErrorTypes } from "../../types";
+import Button from "../../ui/Button";
 
 const fakeCart = [
   {
@@ -40,13 +41,13 @@ function CreateOrder() {
       <Form method="POST">
         <div>
           <label>First Name</label>
-          <input type="text" name="customer" required />
+          <input type="text" name="customer" required className="input" />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input type="tel" name="phone" required className="input" />
           </div>
           {formErrors?.phone && <p>{formErrors.phone}</p>}
         </div>
@@ -54,12 +55,13 @@ function CreateOrder() {
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input type="text" name="address" required className="input" />
           </div>
         </div>
 
         <div>
           <input
+            className="h-6 w-6 accent-yellow-400 focus:ring focus:ring-yellow-400 focus:ring-offset-2 focus:outline-none"
             type="checkbox"
             name="priority"
             id="priority"
@@ -71,9 +73,10 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" value={JSON.stringify(cart)} name="cart" />
-          <button disabled={isSubmitting}>
+
+          <Button disabled={isSubmitting}>
             {isSubmitting ? "Placing Order" : "Order now"}
-          </button>
+          </Button>
         </div>
       </Form>
     </div>
