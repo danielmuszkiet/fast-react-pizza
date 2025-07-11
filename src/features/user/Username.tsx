@@ -1,5 +1,13 @@
+import { useAppSelector } from "../../hooks";
+
 function Username() {
-  return <div className="hidden text-sm font-semibold sm:block">Username</div>;
+  const username = useAppSelector((state) => state.user.userName);
+
+  if (!username) return null;
+
+  return (
+    <div className="hidden text-sm font-semibold sm:block">{username}</div>
+  );
 }
 
 export default Username;

@@ -1,4 +1,4 @@
-export type TItem = {
+export type TCartItem = {
   pizzaId: number;
   name: string;
   quantity: number;
@@ -23,7 +23,7 @@ export type Order = {
   address: string;
   priority: boolean;
   estimatedDelivery: string;
-  cart: TItem[];
+  cart: TCartItem[];
   position: string;
   orderPrice: number;
   priorityPrice: number;
@@ -34,7 +34,7 @@ export type NewOrder = {
   phone: string;
   address: string;
   priority: boolean;
-  cart: TItem[];
+  cart: TCartItem[];
 };
 
 export type ErrorTypes = {

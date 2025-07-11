@@ -1,3 +1,4 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { getAddress } from "../../services/apiGeocoding";
 
 function getPosition() {
@@ -21,3 +22,22 @@ async function fetchAddress() {
   // 3) Then we return an object with the data that we are interested in
   return { position, address };
 }
+
+interface TUser {
+  userName: string;
+}
+
+const initialState: TUser = { userName: "" };
+
+const userSlice = createSlice({
+  name: "user",
+  initialState: initialState,
+  reducers: {
+    updateName: (state, action: PayloadAction<string>) => {
+      state.userName = action.payload;
+    },
+  },
+});
+
+export const { updateName } = userSlice.actions;
+export default userSlice.reducer;

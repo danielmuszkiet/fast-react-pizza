@@ -1,6 +1,7 @@
 import { Form, useActionData, useNavigation } from "react-router";
 import type { ErrorTypes } from "../../types";
 import Button from "../../ui/Button";
+import { useAppSelector } from "../../hooks";
 
 const fakeCart = [
   {
@@ -27,6 +28,8 @@ const fakeCart = [
 ];
 
 function CreateOrder() {
+  const username = useAppSelector((state) => state.user.userName);
+
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
   const navigation = useNavigation();
@@ -46,6 +49,7 @@ function CreateOrder() {
             name="customer"
             required
             className="input flex-1"
+            defaultValue={username}
           />
         </div>
 

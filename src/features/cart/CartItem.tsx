@@ -1,8 +1,8 @@
 import { formatCurrency } from "../../utils/helpers";
-import type { TItem } from "../../types";
+import type { TCartItem } from "../../types";
 import Button from "../../ui/Button";
 
-function CartItem({ item }: { item: TItem }) {
+function CartItem({ item }: { item: TCartItem }) {
   //pizzaId
 
   const { name, quantity, totalPrice } = item;

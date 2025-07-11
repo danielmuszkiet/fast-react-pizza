@@ -1,4 +1,4 @@
-import type { TItem } from "../../types";
+import type { TCartItem } from "../../types";
 
 import { formatCurrency } from "../../utils/helpers";
 
@@ -7,7 +7,7 @@ function OrderItem({
   isLoadingIngredients,
   ingredients,
 }: {
-  item: TItem;
+  item: TCartItem;
   isLoadingIngredients: boolean;
   ingredients: string[];
 }) {
