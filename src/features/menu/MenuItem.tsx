@@ -1,14 +1,17 @@
 import type { Pizza, TCartItem } from "../../types";
 
-import { useAppDispatch } from "../../hooks";
 import { formatCurrency } from "../../utils/helpers";
-import { addItem } from "../cart/cartSlice";
+import { addItem, selectCurrentQuantityById } from "../cart/cartSlice";
 
 import Button from "../../ui/Button";
+import DeleteItem from "../cart/DeleteItem";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 function MenuItem({ pizza }: { pizza: Pizza }) {
   const dispatch = useAppDispatch();
+
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+  const currentQuantity = useAppSelector(selectCurrentQuantityById(id));
 
   function handelAddItem() {
     const item: TCartItem = {
@@ -42,11 +45,15 @@ function MenuItem({ pizza }: { pizza: Pizza }) {
               Sold out
             </p>
           )}
-          {!soldOut && (
-            <Button type="small" onClick={handelAddItem}>
-              Add to cart
-            </Button>
-          )}
+
+          {!soldOut &&
+            (currentQuantity > 0 ? (
+              <DeleteItem pizzaId={id} />
+            ) : (
+              <Button type="small" onClick={handelAddItem}>
+                Add to cart
+              </Button>
+            ))}
         </div>
       </div>
     </li>

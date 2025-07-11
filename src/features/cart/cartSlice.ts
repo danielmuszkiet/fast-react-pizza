@@ -50,6 +50,14 @@ export const selectTotalCartPrice = (state: RootState) =>
     return acc + item.totalPrice;
   }, 0);
 
+export const selectCurrentQuantityById = (id: number) => (state: RootState) => {
+  const quantity =
+    state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
+  return quantity;
+};
+
+export const selectCart = (state: RootState) => state.cart.cart;
+
 export const {
   addItem,
   deleteItem,
