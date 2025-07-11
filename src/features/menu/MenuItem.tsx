@@ -1,9 +1,26 @@
-import type { Pizza } from "../../types";
-import Button from "../../ui/Button";
+import type { Pizza, TCartItem } from "../../types";
+
+import { useAppDispatch } from "../../hooks";
 import { formatCurrency } from "../../utils/helpers";
+import { addItem } from "../cart/cartSlice";
+
+import Button from "../../ui/Button";
 
 function MenuItem({ pizza }: { pizza: Pizza }) {
-  const { name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+  const dispatch = useAppDispatch();
+  const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+
+  function handelAddItem() {
+    const item: TCartItem = {
+      pizzaId: id,
+      name,
+      unitPrice: unitPrice,
+      quantity: 1,
+      totalPrice: unitPrice,
+    };
+
+    dispatch(addItem(item));
+  }
 
   return (
     <li className="flex gap-4 py-2">
@@ -25,7 +42,11 @@ function MenuItem({ pizza }: { pizza: Pizza }) {
               Sold out
             </p>
           )}
-          <Button type="small">Add to cart</Button>
+          {!soldOut && (
+            <Button type="small" onClick={handelAddItem}>
+              Add to cart
+            </Button>
+          )}
         </div>
       </div>
     </li>

@@ -1,20 +1,13 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { TCartItem } from "../../types";
+import type { RootState } from "../../store";
 
 interface TCart {
   cart: TCartItem[];
 }
 
 const initialState: TCart = {
-  cart: [
-    {
-      pizzaId: 123,
-      name: "Funghi",
-      quantity: 2,
-      unitPrice: 16,
-      totalPrice: 32,
-    },
-  ],
+  cart: [],
 };
 
 const cartSlice = createSlice({
@@ -46,6 +39,16 @@ const cartSlice = createSlice({
     },
   },
 });
+
+export const selectCartQuantity = (state: RootState) =>
+  state.cart.cart.reduce((acc, item) => {
+    return acc + item.quantity;
+  }, 0);
+
+export const selectTotalCartPrice = (state: RootState) =>
+  state.cart.cart.reduce((acc, item) => {
+    return acc + item.totalPrice;
+  }, 0);
 
 export const {
   addItem,

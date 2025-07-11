@@ -1,11 +1,13 @@
 import { Link } from "react-router";
 
 function Button({
+  onClick,
   type = "primary",
   to,
   disabled,
   children,
 }: {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: "small" | "primary" | "secondary";
   to?: string;
   disabled?: boolean;
@@ -30,7 +32,7 @@ function Button({
     );
 
   return (
-    <button disabled={disabled} className={styles[type]}>
+    <button onClick={onClick} disabled={disabled} className={styles[type]}>
       {children}
     </button>
   );
