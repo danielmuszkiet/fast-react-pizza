@@ -1,8 +1,6 @@
-import { redirect, type ActionFunctionArgs } from "react-router";
+import { type ActionFunctionArgs } from "react-router";
 import { createOrder } from "../services/apiRestaurant";
-import type { ErrorTypes, NewOrder } from "../types";
-import store from "../store";
-import { clearCart } from "../features/cart/cartSlice";
+import type { NewOrder } from "../types";
 
 const isValidPhone = (str: string) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
@@ -24,13 +22,14 @@ export async function createOrderAction({ request }: ActionFunctionArgs) {
     priority: data.priority === "on",
   };
 
-  const errors: ErrorTypes = {};
+  const actionData = { errorMsg: "", newOrderId: "" };
+
   if (!isValidPhone(order.phone))
-    errors.phone = "Please give us a valid phone number.";
-  if (Object.keys(errors).length > 0) return errors;
+    actionData.errorMsg = "Please give us a valid phone number.";
+  if (Object.keys(actionData.errorMsg).length > 0) return actionData;
 
   const newOrder = await createOrder(order);
-  store.dispatch(clearCart());
+  actionData.newOrderId = newOrder.id;
 
-  return redirect(`/order/${newOrder.id}`);
+  return actionData;
 }
