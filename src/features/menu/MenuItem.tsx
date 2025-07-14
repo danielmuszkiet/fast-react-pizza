@@ -6,6 +6,7 @@ import { addItem, selectCurrentQuantityById } from "../cart/cartSlice";
 import Button from "../../ui/Button";
 import DeleteItem from "../cart/DeleteItem";
 import { useAppDispatch, useAppSelector } from "../../hooks";
+import UpdateItemQuantity from "../cart/UpdateItemQuantity";
 
 function MenuItem({ pizza }: { pizza: Pizza }) {
   const dispatch = useAppDispatch();
@@ -48,7 +49,10 @@ function MenuItem({ pizza }: { pizza: Pizza }) {
 
           {!soldOut &&
             (currentQuantity > 0 ? (
-              <DeleteItem pizzaId={id} />
+              <div className="flex items-center gap-3 sm:gap-8">
+                <UpdateItemQuantity pizzaId={id} />
+                <DeleteItem pizzaId={id} />
+              </div>
             ) : (
               <Button type="small" onClick={handelAddItem}>
                 Add to cart

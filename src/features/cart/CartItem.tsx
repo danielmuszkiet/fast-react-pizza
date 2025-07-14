@@ -1,6 +1,7 @@
 import { formatCurrency } from "../../utils/helpers";
 import type { TCartItem } from "../../types";
 import DeleteItem from "./DeleteItem";
+import UpdateItemQuantity from "./UpdateItemQuantity";
 
 function CartItem({ item }: { item: TCartItem }) {
   //pizzaId
@@ -12,8 +13,11 @@ function CartItem({ item }: { item: TCartItem }) {
       <p className="mb-1 sm:mb-0">
         {quantity}&times; {name}
       </p>
-      <div className="flex items-center justify-between sm:gap-6">
-        <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
+      <div className="flex items-center justify-between gap-3 sm:gap-6">
+        <p className="mr-auto text-sm font-bold">
+          {formatCurrency(totalPrice)}
+        </p>
+        <UpdateItemQuantity pizzaId={pizzaId} />
         <DeleteItem pizzaId={pizzaId} />
       </div>
     </li>
