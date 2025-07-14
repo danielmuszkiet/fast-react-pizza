@@ -34,6 +34,7 @@ export type NewOrder = {
   phone: string;
   address: string;
   priority: boolean;
+  position: string;
   cart: TCartItem[];
 };
 

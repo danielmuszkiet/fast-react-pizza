@@ -11,12 +11,13 @@ export async function createOrderAction({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
   const data = Object.fromEntries(formData);
-  const { address, phone, customer } = data;
+  const { address, phone, customer, position } = data;
   const cartData = JSON.parse(data.cart as string);
 
   const order: NewOrder = {
     customer: customer as string,
     address: address as string,
+    position: position as string,
     phone: phone as string,
     cart: cartData,
     priority: data.priority === "on",

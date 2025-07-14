@@ -5,12 +5,23 @@ import { clearCart, selectCart, selectTotalCartPrice } from "../cart/cartSlice";
 import EmptyCart from "../cart/EmptyCart";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
+import { fetchAddress } from "../user/userSlice";
+import { MapPinHouse } from "lucide-react";
 
 const PRIORITY_PRICE_PERCENTAGE = 0.2;
 
 function CreateOrder() {
   const dispatch = useAppDispatch();
-  const username = useAppSelector((state) => state.user.userName);
+  const {
+    userName,
+    address,
+    position,
+    status: addressStatus,
+    error: errorAdress,
+  } = useAppSelector((state) => state.user);
+
+  const isLoadingAddress = addressStatus === "loading";
+
   const totalCartPrice = useAppSelector(selectTotalCartPrice);
   const cart = useAppSelector(selectCart);
   const navigation = useNavigation();
@@ -48,7 +59,7 @@ function CreateOrder() {
             name="customer"
             required
             className="input flex-1"
-            defaultValue={username}
+            defaultValue={userName}
           />
         </div>
 
@@ -57,7 +68,7 @@ function CreateOrder() {
           <div className="relative grow">
             <input type="tel" name="phone" required className="input w-full" />
             {actionData?.errorMsg && (
-              <p className="absolute w-full rounded-md p-1 text-center text-xs text-red-400 sm:top-0">
+              <p className="absolute w-full p-1 text-center text-xs text-red-400 sm:top-0">
                 {actionData.errorMsg}
               </p>
             )}
@@ -66,17 +77,37 @@ function CreateOrder() {
 
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-1/5">Address</label>
-          <div className="grow">
-            <input
-              type="text"
-              name="address"
-              required
-              className="input w-full"
-            />
+          <div className="flex grow gap-2">
+            <div className="relative grow">
+              <input
+                disabled={isLoadingAddress}
+                type="text"
+                name="address"
+                defaultValue={address}
+                required
+                className="input w-full"
+              />
+              {addressStatus == "error" && (
+                <p className="z- absolute right-0 w-full p-1 text-center text-xs text-red-400 sm:top-0">
+                  {errorAdress}
+                </p>
+              )}
+            </div>
+            {!address && (
+              <Button
+                disabled={isLoadingAddress}
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(fetchAddress());
+                }}
+              >
+                <MapPinHouse />
+              </Button>
+            )}
           </div>
         </div>
 
-        <div className="mb-12 flex items-center gap-5">
+        <div className="mb-12 flex items-center gap-5 pt-2 sm:pt-0">
           <input
             className="h-6 w-6 accent-yellow-400 focus:ring focus:ring-yellow-400 focus:ring-offset-2 focus:outline-none"
             type="checkbox"
@@ -85,15 +116,26 @@ function CreateOrder() {
             checked={withPriority}
             onChange={(e) => setWithPriority(e.target.checked)}
           />
-          <label className="font-medium" htmlFor="priority">
+          <label
+            className="text-s text-sm font-medium sm:text-base"
+            htmlFor="priority"
+          >
             Want to yo give your order priority?
           </label>
         </div>
 
         <div>
           <input type="hidden" value={JSON.stringify(cart)} name="cart" />
-
-          <Button disabled={isSubmitting}>
+          <input
+            type="hidden"
+            value={JSON.stringify(
+              position?.latitude && position.latitude
+                ? `${position?.latitude},${position?.longitude}`
+                : "",
+            )}
+            name="position"
+          />
+          <Button disabled={isSubmitting || isLoadingAddress}>
             {isSubmitting
               ? "Placing Order ..."
               : `Order now ${formatCurrency(totalPrice)}`}
