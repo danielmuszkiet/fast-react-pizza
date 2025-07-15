@@ -10,6 +10,7 @@ import type { Pizza, Order as TOrder } from "../../types";
 import { useFetcher, useLoaderData } from "react-router";
 import OrderItem from "./OrderItem";
 import { useEffect } from "react";
+import UpdateOrder from "./UpdateOrder";
 
 function Order() {
   const order = useLoaderData<TOrder>();
@@ -87,6 +88,7 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+      {!priority && <UpdateOrder />}
     </div>
   );
 }

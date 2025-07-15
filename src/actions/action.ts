@@ -1,5 +1,5 @@
 import { type ActionFunctionArgs } from "react-router";
-import { createOrder } from "../services/apiRestaurant";
+import { createOrder, updateOrder } from "../services/apiRestaurant";
 import type { NewOrder } from "../types";
 
 const isValidPhone = (str: string) =>
@@ -30,7 +30,17 @@ export async function createOrderAction({ request }: ActionFunctionArgs) {
   if (Object.keys(actionData.errorMsg).length > 0) return actionData;
 
   const newOrder = await createOrder(order);
-  actionData.newOrderId = newOrder.id;
+  actionData.newOrderId = String(newOrder.id);
 
   return actionData;
+}
+
+export async function updateOrderAction({ params }: ActionFunctionArgs) {
+  const { orderId } = params;
+  const data = { priority: true };
+
+  if (!orderId) return;
+  await updateOrder(orderId, data);
+
+  return;
 }
