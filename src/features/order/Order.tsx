@@ -6,16 +6,20 @@ import {
   formatDate,
 } from "../../utils/helpers";
 
-import type { Order as TOrder } from "../../types";
-import { useLoaderData } from "react-router";
+import type { Pizza, Order as TOrder } from "../../types";
+import { useFetcher, useLoaderData } from "react-router";
 import OrderItem from "./OrderItem";
+import { useEffect } from "react";
 
 function Order() {
   const order = useLoaderData<TOrder>();
 
-  // Everyone can search for all orders, so for privacy reasons we're gonna gonna
-  // exclude names or address, these are only for the restaurant staff
-  // id, status, cart
+  const fetcher = useFetcher<Pizza[]>();
+
+  useEffect(() => {
+    if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
+  }, [fetcher]);
+
   const {
     id,
     status,
@@ -57,7 +61,16 @@ function Order() {
 
       <ul className="divide-y divide-stone-200 border-y border-stone-300">
         {cart.map((item) => {
-          return <OrderItem item={item} key={item.pizzaId} />;
+          return (
+            <OrderItem
+              ingredients={
+                fetcher.data?.find((el) => el.id === item.pizzaId)?.ingredients
+              }
+              isLoadingIngredients={fetcher.state === "loading"}
+              item={item}
+              key={item.pizzaId}
+            />
+          );
         })}
       </ul>
 

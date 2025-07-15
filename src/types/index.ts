@@ -16,7 +16,7 @@ export type Pizza = {
 };
 
 export type Order = {
-  id: string;
+  id: number;
   status: string;
   customer: string;
   phone: string;
